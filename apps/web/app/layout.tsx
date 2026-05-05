@@ -6,6 +6,7 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+const hasClerkKey = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export const metadata: Metadata = {
   title: "EmpowerAI 365 — Recruiting Automation",
@@ -20,6 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-  if (isDemo) return body;
+  // Only wrap with ClerkProvider when both: NOT in demo mode AND a publishable key exists.
+  // Otherwise the provider throws a hard client-side error and the whole app
+  // shows a generic "Application error" overlay.
+  if (isDemo || !hasClerkKey) return body;
   return <ClerkProvider>{body}</ClerkProvider>;
 }

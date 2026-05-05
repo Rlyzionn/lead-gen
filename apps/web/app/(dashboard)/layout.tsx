@@ -5,8 +5,10 @@ import { DemoBanner } from "@/components/layout/DemoBanner";
 
 const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
+const hasClerkKey = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  if (!isDemo) {
+  if (!isDemo && hasClerkKey) {
     const { auth } = require("@clerk/nextjs");
     const { userId } = auth();
     if (!userId) redirect("/login");
