@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// npx prisma db seed
+// (configured in package.json > prisma.seed)
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id                      String      @id @default(cuid())
+  name                    String
+  status                  String      @default("draft") // draft | active | paused | completed
+  sourcingSpec            String?
+  irpPrompt               String?
+  threshold               Int         @default(70)
+  channels                Json        @default("[\"sms\",\"email\"]")
+  cadenceTemplate         String?     // "3-touch" | "5-touch" | "hyper-personalized"
+  cadenceTemplates        Json?       // { sms: [{body}], email: [{subject, body}] }
+  conditionalLogicDsl     String?
+  pastPlacementEmbeddings Json?
+
+  candidates              Candidate[]
+  messages                Message[]
+  activities              ActivityEvent[]
+
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+model Candidate {
+  id                      String    @id @default(cuid())
+  externalId              String    @unique
+  name                    String
+  email                   String?
+  phone                   String?
+  title                   String?
+  location                String?
+  source                  String    // "linkedin" | "indeed" | "csv"
+  rawData                 Json?
+  enrichedData            Json?
+  deepResearch            String?
+  identityVerified        Boolean   @default(false)
+  credentialsVerified     Boolean   @default(false)
+  score                   Int?
+  scoreReasoning          String?
+  personalizationTokens   Json?
+  status                  String    @default("sourced")
+  // sourced | enriched | verified | qualified | disqualified | personalized | sent | replied | booked
+
+  recruiterId             String?
+  campaignId              String
+  campaign                Campaign  @relation(fields: [campaignId], references: [id])
+
+  messages                Message[]
+
+  dynamicsSyncedAt        DateTime?
+  dynamicsContactId       String?
+
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  candidateId String
+  campaignId  String
+  channel     String    // "sms" | "email"
+  direction   String    // "outbound" | "inbound"
+  body        String
+  subject     String?
+  externalId  String?
+  touchNumber Int?
+  sentAt      DateTime  @default(now())
+  readAt      DateTime?
+
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+}
+
+model ActivityEvent {
+  id            String    @id @default(cuid())
+  campaignId    String
+  candidateId   String?
+  candidateName String?
+  type          String    // "sourced" | "qualified" | "sent" | "replied" | "booked" | "error" | "synced"
+  detail        String?
+  ts            DateTime  @default(now())
+
+  campaign      Campaign  @relation(fields: [campaignId], references: [id])
+}
+
+model CommandMemory {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model RecruiterNumberMapping {
+  id          String @id @default(cuid())
+  recruiterId String @unique
+  phoneNumber String
+}
+
+model DynamicsSyncSettings {
+  id           String @id @default(cuid())
+  eventType    String @unique
+  cadence      String @default("realtime") // realtime | every-5-min | hourly | batch-nightly
+}
+
+model OAuthToken {
+  id           String   @id @default(cuid())
+  userId       String
+  provider     String   // "google" | "dynamics"
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime
+
+  @@unique([userId, provider])
+}
+
+model AIPreferences {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  tone            String   @default("friendly")    // formal | casual | friendly | direct
+  verbosity       String   @default("balanced")    // concise | balanced | detailed
+  creativity      Float    @default(0.7)           // 0.0 – 1.0 (LLM temperature)
+  emojiUsage      String   @default("minimal")     // none | minimal | liberal
+  signOffStyle    String   @default("warm")        // warm | professional | none
+  customInstructions String?
+  updatedAt       DateTime @updatedAt
+}
+
+model SearchConfig {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  jobTitle        String   @default("Registered Nurse (RN)")
+  shiftType       String   @default("Day Shift")
+  minExperience   Int      @default(3)
+  locationRadius  Int      @default(50)
+  payRangeMin     Int      @default(35)
+  payRangeMax     Int      @default(55)
+  licenseRequired Boolean  @default(true)
+  sources         Json     @default("[\"indeed\",\"linkedin\",\"zipRecruiter\",\"internalDb\"]")
+  updatedAt       DateTime @updatedAt
+}
