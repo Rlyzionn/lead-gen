@@ -55,12 +55,8 @@ export default function CampaignCard({ campaign }: { campaign: Campaign }) {
         className="block glass-card rounded-xl border border-white/10 p-5 hover:border-brand-400 transition-colors"
       >
         <div className="flex items-start justify-between mb-4 gap-2">
-          <h3 className="font-semibold text-white pr-8">{campaign.name}</h3>
-          <span
-            className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLOR[campaign.status]}`}
-          >
-            {campaign.status}
-          </span>
+          {/* pr leaves space so title doesn't run under the absolute-positioned actions row */}
+          <h3 className="font-semibold text-white pr-20 sm:pr-24 break-words">{campaign.name}</h3>
         </div>
         <div className="grid grid-cols-4 gap-2 text-center">
           {[
@@ -77,15 +73,20 @@ export default function CampaignCard({ campaign }: { campaign: Campaign }) {
         </div>
       </Link>
 
-      {/* Kebab menu trigger */}
-      <div ref={menuRef} className="absolute top-3 right-3">
+      {/* Top-right cluster: status pill + kebab — always sit together, never overlap */}
+      <div ref={menuRef} className="absolute top-3 right-3 flex items-center gap-1.5">
+        <span
+          className={`text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLOR[campaign.status]}`}
+        >
+          {campaign.status}
+        </span>
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             setMenuOpen((o) => !o);
           }}
-          className="p-1.5 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+          className="p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           aria-label="Campaign actions"
         >
           <MoreVertical size={14} />

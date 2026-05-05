@@ -35,9 +35,10 @@ export default function TopBar() {
       {isAuthDisabled ? (
         <Link
           href="/profile"
-          className="flex items-center gap-2 sm:gap-3 bg-white/40 backdrop-blur-md border border-white/50 rounded-full pl-1.5 sm:pl-2 pr-3 sm:pr-4 py-1 sm:py-1.5 shadow-sm hover:bg-white/60 transition-colors"
+          aria-label="Profile"
+          className="flex items-center gap-2 sm:gap-3 bg-white/40 backdrop-blur-md border border-white/50 rounded-full p-2.5 sm:pl-2 sm:pr-4 sm:py-1.5 shadow-sm hover:bg-white/60 transition-colors"
         >
-          <UserCircle size={22} className="text-gray-700 sm:w-6 sm:h-6" />
+          <UserCircle size={18} className="text-gray-700 sm:w-6 sm:h-6" />
           <span className="hidden sm:block text-sm font-medium text-gray-800 whitespace-nowrap">
             Demo User
           </span>
