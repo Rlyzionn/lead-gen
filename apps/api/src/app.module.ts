@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, Controller, Get } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { BullModule } from "@nestjs/bull";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -16,10 +16,22 @@ import { MetricsModule } from "./metrics/metrics.module";
 import { SettingsModule } from "./settings/settings.module";
 import { OAuthModule } from "./oauth/oauth.module";
 
+// Cheap, dependency-free healthcheck so Railway's probe never fails
+// because of a DB or Redis hiccup.
+@Controller("health")
+class HealthController {
+  @Get()
+  ok() {
+    return { ok: true, service: "api", time: new Date().toISOString() };
+  }
+}
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    BullModule.forRoot({ redis: process.env.REDIS_URL ?? "redis://localhost:6379" }),
+    BullModule.forRoot({
+      redis: process.env.REDIS_URL ?? "redis://localhost:6379",
+    }),
     PrismaModule,
     SupabaseModule,
     AuthModule,
@@ -35,5 +47,6 @@ import { OAuthModule } from "./oauth/oauth.module";
     SettingsModule,
     OAuthModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}
