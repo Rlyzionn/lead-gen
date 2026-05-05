@@ -98,7 +98,7 @@ export default function NotificationsDropdown() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-96 max-w-[90vw] glass-dropdown rounded-2xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-[min(24rem,calc(100vw-2rem))] glass-dropdown rounded-2xl z-50 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <Bell size={14} className="text-gray-300" />

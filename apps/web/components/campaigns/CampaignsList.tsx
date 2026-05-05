@@ -20,7 +20,7 @@ export default function CampaignsList() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="h-36 bg-white/10 rounded-xl animate-pulse" />
         ))}

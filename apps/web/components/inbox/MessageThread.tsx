@@ -38,7 +38,7 @@ export default function MessageThread({ threadId }: Props) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between">
+      <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between gap-2 flex-wrap">
         <div className="flex gap-2">
           {(["sms", "email"] as const).map((ch) => (
             <button
@@ -77,7 +77,7 @@ export default function MessageThread({ threadId }: Props) {
             className={`flex ${m.direction === "outbound" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-sm px-3 py-2 rounded-xl text-sm ${
+              className={`max-w-[85%] sm:max-w-sm px-3 py-2 rounded-xl text-sm ${
                 m.direction === "outbound"
                   ? "bg-brand-500 text-white"
                   : "bg-white/10 text-gray-100"

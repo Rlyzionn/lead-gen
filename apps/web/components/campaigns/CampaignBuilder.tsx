@@ -34,15 +34,15 @@ export default function CampaignBuilder() {
 
   return (
     <div className="glass-card rounded-xl border border-white/10 p-6 space-y-6">
-      <ol className="flex gap-6 text-sm">
+      <ol className="flex gap-3 sm:gap-6 text-xs sm:text-sm overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
         {(["input", "irp", "cadence", "review"] as Step[]).map((s, i) => (
           <li
             key={s}
-            className={`flex items-center gap-2 ${
+            className={`flex items-center gap-2 whitespace-nowrap shrink-0 ${
               step === s ? "text-brand-500 font-medium" : "text-gray-400"
             }`}
           >
-            <span className="w-5 h-5 rounded-full border flex items-center justify-center text-xs">
+            <span className="w-5 h-5 rounded-full border flex items-center justify-center text-xs shrink-0">
               {i + 1}
             </span>
             {{ input: "Describe Role", irp: "Ideal Recruit Profile", cadence: "Outreach Cadence", review: "Review & Launch" }[s]}

@@ -68,7 +68,7 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-white">My Profile</h1>
           <p className="text-sm text-gray-400 mt-1">
@@ -77,33 +77,33 @@ export default function ProfilePage() {
         </div>
         <Link
           href="/settings"
-          className="text-xs px-4 py-2 rounded-full glass-button font-medium text-white"
+          className="text-xs px-4 py-2 rounded-full glass-button font-medium text-white self-start sm:self-auto whitespace-nowrap"
         >
           Workspace Settings →
         </Link>
       </div>
 
       {/* Header card */}
-      <div className="glass-card rounded-2xl p-6 flex items-start gap-5">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-3xl font-bold shrink-0 shadow-lg">
+      <div className="glass-card rounded-2xl p-5 sm:p-6 flex items-start gap-4 sm:gap-5">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shrink-0 shadow-lg">
           {user.fullName.charAt(0) || "?"}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold text-white">{user.fullName || "Unnamed"}</h2>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h2 className="text-lg sm:text-xl font-semibold text-white">{user.fullName || "Unnamed"}</h2>
             {isDemo && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 font-medium">
                 DEMO
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-400">{user.title} · {user.org}</p>
-          <p className="text-xs text-gray-500 mt-1 flex items-center gap-3">
-            <span className="flex items-center gap-1"><Mail size={11} /> {user.email}</span>
-            <span className="flex items-center gap-1"><Phone size={11} /> {user.phone}</span>
+          <p className="text-sm text-gray-400 truncate">{user.title} · {user.org}</p>
+          <p className="text-xs text-gray-500 mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+            <span className="flex items-center gap-1 truncate"><Mail size={11} className="shrink-0" /> {user.email}</span>
+            <span className="flex items-center gap-1"><Phone size={11} className="shrink-0" /> {user.phone}</span>
           </p>
         </div>
-        <button className="p-2 rounded-full glass-button text-white">
+        <button className="p-2 rounded-full glass-button text-white shrink-0">
           <Edit3 size={14} />
         </button>
       </div>
@@ -127,7 +127,7 @@ export default function ProfilePage() {
           <UserCircle size={18} className="text-brand-500" />
           <h3 className="font-semibold text-white">Personal Information</h3>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field
             label="Full Name"
             icon={<UserCircle size={13} />}
@@ -177,7 +177,8 @@ export default function ProfilePage() {
           Pick which channels each event type fires on.
         </p>
 
-        <table className="w-full text-sm">
+        {/* Desktop / tablet: clean table */}
+        <table className="hidden sm:table w-full text-sm">
           <thead>
             <tr className="text-xs text-gray-400 uppercase tracking-wide">
               <th className="text-left pb-2">Event</th>
@@ -205,6 +206,32 @@ export default function ProfilePage() {
             ))}
           </tbody>
         </table>
+
+        {/* Mobile: stacked card list */}
+        <div className="sm:hidden space-y-4 divide-y divide-white/5">
+          {NOTIFICATION_PREFS.map((p) => (
+            <div key={p.key} className="pt-4 first:pt-0">
+              <p className="text-sm text-white font-medium">{p.label}</p>
+              <p className="text-xs text-gray-500 mb-3">{p.description}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {(["app", "email", "slack"] as const).map((ch) => (
+                  <button
+                    key={ch}
+                    onClick={() => togglePref(p.key, ch)}
+                    className={`flex items-center justify-between gap-2 px-3 py-2 rounded-lg border text-xs ${
+                      prefs[p.key][ch]
+                        ? "border-brand-500/50 bg-brand-500/15 text-brand-300"
+                        : "border-white/10 text-gray-400"
+                    }`}
+                  >
+                    <span className="capitalize">{ch === "app" ? "In-App" : ch}</span>
+                    <Toggle on={prefs[p.key][ch]} onClick={() => togglePref(p.key, ch)} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Quick links */}

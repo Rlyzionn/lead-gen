@@ -70,7 +70,7 @@ export default function AISettings() {
           <MessageCircle size={14} className="text-gray-400" />
           <span className="text-sm font-medium text-gray-100">Tone</span>
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {TONE_OPTIONS.map((o) => (
             <button
               key={o.value}

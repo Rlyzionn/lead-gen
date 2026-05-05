@@ -7,11 +7,11 @@ import AgentStatusStrip from "@/components/dashboard/AgentStatusStrip";
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-white drop-shadow-sm tracking-tight">Command Center</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-sm tracking-tight">Command Center</h1>
         <Link
           href="/agents"
-          className="text-sm px-4 py-2 rounded-full glass-button font-medium text-white shadow-sm"
+          className="text-sm px-4 py-2 rounded-full glass-button font-medium text-white shadow-sm self-start sm:self-auto whitespace-nowrap"
         >
           View pipeline →
         </Link>

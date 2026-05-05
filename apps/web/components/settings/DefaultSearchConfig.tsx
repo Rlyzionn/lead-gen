@@ -73,7 +73,7 @@ export default function DefaultSearchConfig() {
         Default filters applied when creating a new campaign. Per-campaign overrides are still allowed.
       </p>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="text-xs font-medium text-gray-200 block mb-1">Job Title</label>
           <select

@@ -27,12 +27,12 @@ export default function FieldMappingSettings() {
         Map platform fields to your Dynamics entity fields. Changes apply to all future syncs.
       </p>
       <div className="space-y-2">
-        <div className="grid grid-cols-2 gap-2 text-xs text-gray-400 font-medium uppercase tracking-wide px-1">
+        <div className="hidden sm:grid grid-cols-2 gap-2 text-xs text-gray-400 font-medium uppercase tracking-wide px-1">
           <span>Platform field</span>
           <span>Dynamics field</span>
         </div>
         {DEFAULT_FIELDS.map(({ platform }) => (
-          <div key={platform} className="grid grid-cols-2 gap-2 items-center">
+          <div key={platform} className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
             <span className="text-sm text-gray-300 font-mono bg-white/5 px-2 py-1.5 rounded">
               {platform}
             </span>

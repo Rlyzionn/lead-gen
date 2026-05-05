@@ -12,12 +12,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex h-screen bg-transparent p-4 sm:p-6 overflow-hidden gap-6 animate-fade-in-up">
+    <div className="flex h-screen bg-transparent p-0 sm:p-4 lg:p-6 overflow-hidden gap-0 lg:gap-6 animate-fade-in-up">
+      {/* Sidebar handles its own mobile drawer; on desktop it's a flex child. */}
       <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden rounded-[2.5rem] glass-card">
+
+      {/* Main content panel — full width on mobile, glass card on desktop */}
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden lg:rounded-[2.5rem] lg:glass-card">
         <DemoBanner />
         <TopBar />
-        <main className="flex-1 overflow-auto p-6 scroll-smooth">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 pb-6 pt-2 scroll-smooth">
           {children}
         </main>
       </div>
