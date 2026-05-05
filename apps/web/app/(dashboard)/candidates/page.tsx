@@ -1,5 +1,9 @@
 import CandidateList from "@/components/candidates/CandidateList";
 
+// CandidateList reads ?status= from the URL via useSearchParams,
+// so this route must render at request time (not pre-built).
+export const dynamic = "force-dynamic";
+
 export default function CandidatesPage() {
   return (
     <div className="space-y-6">

@@ -15,6 +15,7 @@ import {
   Webhook,
   Copy,
   Check,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
@@ -28,7 +29,7 @@ const ACCENT_BG: Record<string, string> = {
   red: "bg-white/5 text-white",
 };
 
-const CHANNEL_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const CHANNEL_ICONS: Record<string, LucideIcon> = {
   phone: Phone,
   message: MessageSquare,
   mail: Mail,

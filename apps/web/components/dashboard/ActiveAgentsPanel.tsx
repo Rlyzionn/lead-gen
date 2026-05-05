@@ -1,9 +1,9 @@
 "use client";
 import { useAgentStats, type AgentStat } from "@/lib/hooks/useMetrics";
-import { Globe, Users, ShieldCheck, Sparkles, Mail, Phone, Calendar, Sparkle } from "lucide-react";
+import { Globe, Users, ShieldCheck, Sparkles, Mail, Phone, Calendar, Sparkle, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICONS: Record<string, LucideIcon> = {
   globe: Globe,
   users: Users,
   "shield-check": ShieldCheck,

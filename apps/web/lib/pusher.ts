@@ -4,7 +4,7 @@ const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 interface PusherLike {
   subscribe: (channel: string) => {
-    bind: (event: string, cb: (data: unknown) => void) => void;
+    bind: (event: string, cb: (data: any) => void) => void;
     unbind_all: () => void;
   };
   unsubscribe: (channel: string) => void;

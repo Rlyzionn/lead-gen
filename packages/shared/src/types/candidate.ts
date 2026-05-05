@@ -15,6 +15,11 @@ export interface Candidate {
   campaignId: string;
   recruiterId?: string;
   dynamicsSyncedAt?: string;
+  dynamicsContactId?: string;
+  rawData?: unknown;
+  enrichedData?: unknown;
+  deepResearch?: string;
+  personalizationTokens?: unknown;
   createdAt: string;
   updatedAt: string;
 }
