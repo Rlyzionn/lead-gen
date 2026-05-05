@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import nextDynamic from "next/dynamic";
+import { isAuthDisabled } from "@/lib/auth-mode";
 
 // Force runtime rendering — Clerk components read headers/cookies at request time.
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
-
-const SignIn = isDemo
+const SignIn = isAuthDisabled
   ? null
   : nextDynamic(() => import("@clerk/nextjs").then((m) => m.SignIn), { ssr: false });
 
@@ -26,7 +25,7 @@ export default function LoginPage() {
         />
       </div>
 
-      {isDemo ? (
+      {isAuthDisabled ? (
         <div className="glass-card rounded-2xl p-8 max-w-md text-center space-y-4">
           <h1 className="text-xl font-semibold text-white">Demo Mode</h1>
           <p className="text-sm text-gray-300">

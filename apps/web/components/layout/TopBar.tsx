@@ -4,10 +4,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { UserCircle } from "lucide-react";
 import NotificationsDropdown from "./NotificationsDropdown";
+import { isAuthDisabled } from "@/lib/auth-mode";
 
-const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
-
-const UserButton = isDemo
+const UserButton = isAuthDisabled
   ? null
   : dynamic(() => import("@clerk/nextjs").then((m) => m.UserButton), { ssr: false });
 
@@ -31,7 +30,7 @@ export default function TopBar() {
 
         <NotificationsDropdown />
 
-        {isDemo ? (
+        {isAuthDisabled ? (
           <Link
             href="/profile"
             className="flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/50 rounded-full pl-2 pr-4 py-1.5 shadow-sm hover:bg-white/60 transition-colors"

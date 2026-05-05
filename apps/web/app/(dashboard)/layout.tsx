@@ -2,13 +2,10 @@ import { redirect } from "next/navigation";
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import { DemoBanner } from "@/components/layout/DemoBanner";
-
-const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
-
-const hasClerkKey = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+import { isAuthDisabled } from "@/lib/auth-mode";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  if (!isDemo && hasClerkKey) {
+  if (!isAuthDisabled) {
     const { auth } = require("@clerk/nextjs");
     const { userId } = auth();
     if (!userId) redirect("/login");
